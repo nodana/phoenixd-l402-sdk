@@ -6,7 +6,7 @@ Use Node.js 22.12 or later. Run `npm ci` followed by `npm test`. Tests cover mac
 
 ## Architecture
 
-The package only issues challenges and verifies credentials. It has no payment records, replay set, storage interface or adapters. `@nodana/phoenixd-ts` creates/decodes invoices against any configured node; `macaroon` handles standard V2 macaroons. No Nodana service or node modification is required.
+The package only issues challenges and verifies credentials. It has no payment records, replay set, storage interface or adapters. `@nodana/phoenixd-ts` creates/decodes invoices against any configured node; `macaroon` handles signing, import and verification. An internal first-party V2 encoder avoids the buffer-growth defect in macaroon 3.0.4's binary exporter, which checks an undefined capacity property and reallocates on every write. Serialization tests check fixed wire bytes, large caveat counts, round-trip verification and rejection of third-party caveats. No Nodana service or node modification is required.
 
 A version-0 L402 identifier contains the two-byte version, 32-byte invoice payment hash and a random 32-byte token ID. Per-token root keys are derived with HMAC-SHA256 from the application's signing secret, the domain separator `phoenixd-l402-sdk:root:v1\0` and the identifier. Rotating the application secret invalidates every credential.
 

@@ -1,3 +1,4 @@
+import { serializeMacaroon } from "./serialize";
 import {
   createHash,
   createHmac,
@@ -175,7 +176,7 @@ export class L402 {
 
       token.addFirstPartyCaveat(`expires_at=${expiresAt}`);
 
-      const encoded = Buffer.from(token.exportBinary()).toString("base64");
+      const encoded = serializeMacaroon(token).toString("base64");
 
       return {
         status: 402,

@@ -1,3 +1,4 @@
+import { serializeMacaroon } from "../src/serialize";
 import { createHmac } from "node:crypto";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import macaroon from "macaroon";
@@ -271,7 +272,7 @@ describe("L402 access", () => {
 
     token.addFirstPartyCaveat(`expires_at=${expires}`);
 
-    const credential = `L402 ${Buffer.from(token.exportBinary()).toString("base64url")}:${preimage}`;
+    const credential = `L402 ${serializeMacaroon(token).toString("base64url")}:${preimage}`;
 
     expect(await handler(request(credential))).toMatchObject({
       status: 200,
@@ -288,7 +289,7 @@ describe("L402 access", () => {
       (
         await handler(
           request(
-            `L402 ${Buffer.from(token.exportBinary()).toString("base64")}:${preimage}`,
+            `L402 ${serializeMacaroon(token).toString("base64")}:${preimage}`,
           ),
         )
       ).status,
@@ -308,7 +309,7 @@ describe("L402 access", () => {
       (
         await handler(
           request(
-            `L402 ${Buffer.from(token.exportBinary()).toString("base64")}:${preimage}`,
+            `L402 ${serializeMacaroon(token).toString("base64")}:${preimage}`,
           ),
         )
       ).status,
