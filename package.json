@@ -1,6 +1,6 @@
 {
   "name": "@nodana/phoenixd-l402-sdk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Accept Lightning payments for API requests using L402 and Phoenixd",
   "type": "module",
   "license": "MIT",
